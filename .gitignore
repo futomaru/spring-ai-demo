@@ -1,40 +1,26 @@
-HELP.md
-.gradle
-build/
+###
+# Project build artifacts
+/build/
+.gradle/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+### IDE and editor
+/.idea/
 *.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+.classpath
+.project
+/.settings/
+/.springBeans
+/.sts4-cache/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+### System files
+.DS_Store
+Thumbs.db
 
-### VS Code ###
-.vscode/
+### Node/npm (if added later)
+/node_modules/
 
-### personal ###
+### Local configuration
 .env
+
+###

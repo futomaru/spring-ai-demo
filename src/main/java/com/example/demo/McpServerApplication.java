@@ -5,6 +5,7 @@ import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import com.example.demo.service.ItemsService;
 
 @SpringBootApplication
 public class McpServerApplication {

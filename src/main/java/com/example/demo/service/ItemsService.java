@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.example.demo.model.Item;
 import com.example.demo.model.ItemRequest;
-import com.example.demo.model.ItemUpdateRequest;
 import com.example.demo.repository.ItemRepository;
 
 import org.springframework.ai.tool.annotation.Tool;
@@ -40,7 +39,8 @@ public class ItemsService {
         if (request == null || isBlank(request.name()) || request.price() == null || request.price() < 0) {
             return "アイテムの名前、もしくは価格が不正です";
         }
-        Item saved = repository.save(new Item(null, request.name().trim(), request.price(), blankToNull(request.description())));
+        Item saved = repository
+                .save(new Item(null, request.name().trim(), request.price(), blankToNull(request.description())));
         return "アイテムを登録しました: " + formatItem(saved);
     }
 

@@ -1,8 +1,7 @@
-*
-!.devcontainer/
-!gradle/
-!gradlew
-!build.gradle
-!settings.gradle
-!gradle.properties
-!build/
+.git/
+.gradle/
+/build/
+.idea/
+*.iml
+*.log
+*.lock
