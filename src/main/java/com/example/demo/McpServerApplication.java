@@ -15,7 +15,7 @@ public class McpServerApplication {
 	}
 
 	@Bean
-	public ToolCallbackProvider itemTools(ItemService itemsService) {
-		return MethodToolCallbackProvider.builder().toolObjects(itemsService).build();
+	public ToolCallbackProvider itemTools(ItemService itemService) {
+		return MethodToolCallbackProvider.builder().toolObjects(itemService).build();
 	}
 }

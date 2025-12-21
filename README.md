@@ -21,8 +21,63 @@ java -jar build/libs/spring-ai-demo-0.0.1-SNAPSHOT.jar
 ## ClientStdio でツールを使う
 `ClientStdio` は標準入出力経由で MCP サーバー（このアプリ）を立ち上げ、tool を順番に呼び出すサンプルです。
 
-1. `./gradlew bootJar` で jar を作成する（MCP サーバー起動時に同じ jar を利用）
-2. `./gradlew --quiet run -PmainClass=com.example.demo.client.ClientStdio` などで `ClientStdio` を実行すると、`listItems`→`searchItemsByName`→`registerItem`→`updateItem`→`removeItem` の順に呼び出します。
+```sh
+./gradlew bootJar
+./gradlew --quiet run -PmainClass=com.example.demo.client.ClientStdio
+```
+
+`listItems`→`searchItemsByName`→`registerItem`→`updateItem`→`removeItem` の順に呼び出して、すべてのツールの動作を確認できます。
+
+## JSON-RPC で直接テストする
+
+### 方法1: 対話形式（推奨）
+
+ターミナル1でサーバー起動：
+```sh
+java -jar build/libs/spring-ai-demo-0.0.1-SNAPSHOT.jar
+```
+
+サーバーが起動完了（"Started McpServerApplication"と表示）したら、同じターミナルで以下を**1行ずつ**入力してEnterを押す：
+
+```json
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}
+```
+→ レスポンスが返ってくるのを待つ
+
+```json
+{"jsonrpc":"2.0","method":"notifications/initialized"}
+```
+
+```json
+{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+```
+→ 5つのツール定義が返ってくる
+
+```json
+{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"listItems","arguments":{}}}
+```
+→ データベースの全アイテムが表示される
+
+```json
+{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"searchItemsByName","arguments":{"name":"リンゴ"}}}
+```
+
+```json
+{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"registerItem","arguments":{"request":{"name":"いちご","price":300,"description":"甘い"}}}}
+```
+
+### 方法2: スクリプトで自動テスト
+
+```sh
+(
+  echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}'
+  sleep 2
+  echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
+  sleep 2
+  echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"listItems","arguments":{}}}'
+  sleep 5
+) | java -jar build/libs/spring-ai-demo-0.0.1-SNAPSHOT.jar 2>&1 | grep "jsonrpc"
+```
 
 ## MCP ツール一覧
 `ItemsService` が提供するツールはすべて `MethodToolCallbackProvider` 経由で登録されます。
@@ -52,3 +107,4 @@ java -jar build/libs/spring-ai-demo-0.0.1-SNAPSHOT.jar
 - MyBatis
 - H2 Database（組み込みDB）
 - Gradle
+

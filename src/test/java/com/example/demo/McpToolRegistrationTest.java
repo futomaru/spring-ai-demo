@@ -51,11 +51,11 @@ class McpToolRegistrationTest {
     @DisplayName("MCPサーバーアプリケーション起動確認")
     void testApplicationStartup() {
         assertNotNull(applicationContext);
-        assertTrue(applicationContext.containsBean("itemsService"));
+        assertTrue(applicationContext.containsBean("itemService"));
     }
 
     @Test
-    @DisplayName("ItemsServiceの全てのツールメソッドが実装されている")
+    @DisplayName("ItemServiceの全てのツールメソッドが実装されている")
     void testAllToolMethodsImplemented() {
         // リフレクションでメソッドの存在確認
         try {
